@@ -11,7 +11,7 @@
       padding: 0;
     }
 
-    h1 {
+    header {
       position: absolute;
       font-family: 'Myriad Pro';
       color: #666;
@@ -30,7 +30,18 @@
 
   <div id="canvas"></div>
 
-  <h1>Wiimote Demo</h1>
+  <header>
+
+    <h1>Wiimote Demo</h1>
+
+    <nav>
+      <ul>
+        <li><a href="#" data-player="1">Player 1</a></li>
+        <li><a href="#" data-player="2">Player 2</a></li>
+      </ul>
+    </nav>
+
+  </header>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>

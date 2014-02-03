@@ -7,6 +7,7 @@ var
   util = require('lib/util');
 
 var
+  Camera = require('support/camera'),
   Board = require('support/board'),
   Ball = require('support/ball'),
   Paddle = require('support/paddle'),
@@ -20,8 +21,6 @@ function Game() {
   this.canvas = document.getElementById('canvas');
   this.canvas.appendChild(this.renderer.domElement);
   this.scene = new THREE.Scene();
-
-  this.camera = new THREE.PerspectiveCamera(80, util.getAspectRatio(), 0.1, 10000);
 
   this.board = new Board();
   this.scene.add(this.board.object);
@@ -41,11 +40,17 @@ function Game() {
   this.opponentLight = new Light({ id: 2, game: this });
   this.scene.add(this.opponentLight.object);
 
-  this.skyPlane = new SkyPlane({ game: this });
-  this.scene.add(this.skyPlane.object);
+  this.opponentSkyPlane = new SkyPlane({ game: this, side: 1 });
+  this.scene.add(this.opponentSkyPlane.object);
+
+  this.playerSkyPlane = new SkyPlane({ game: this, side: -1 });
+  this.scene.add(this.playerSkyPlane.object);
 
   this.fairyParticleSystem = new FairyParticleSystem({ game: this });
   this.scene.add(this.fairyParticleSystem.object);
+
+  // Setup camera:
+  this.camera = new Camera({ game: this });
 
   // Bind window resizing, and set defaults:
   $(window).on('resize', _.bind(this.resize, this));
@@ -55,6 +60,9 @@ function Game() {
   this.socket = io.connect('http://localhost');
   this.bindSocketEvents();
 
+  // Bind player events:
+  this.bindPlayerEvents();
+
   // Begin draw loop:
   this.draw();
 }
@@ -63,11 +71,16 @@ Game.prototype.draw = function() {
 
   var delta = this.clock.getDelta();
 
+  // If camera is moving, continue animation:
+  if (this.camera.isMoving) {
+    this.camera.update(delta);
+  }
+
   // Animate particle system:
   this.fairyParticleSystem.update(delta);
 
   // Render scene:
-  this.renderer.render(this.scene, this.camera);
+  this.renderer.render(this.scene, this.camera.object);
 
   // Queue next loop with RAF:
   var _this = this;
@@ -83,18 +96,13 @@ Game.prototype.resize = function() {
   this.opponent.resize();
   this.playerLight.resize();
   this.opponentLight.resize();
-  this.skyPlane.resize();
+  this.opponentSkyPlane.resize();
+  this.playerSkyPlane.resize();
   this.fairyParticleSystem.resize();
+  this.camera.resize();
 
   // Set renderer size:
   this.renderer.setSize(window.innerWidth, window.innerHeight);
-
-  // Position camera behind player:
-  this.camera.position.z = this.board.getHeight() * 0.9;
-  this.camera.position.x = this.player.object.position.x - this.board.getWidth() * 0.7;
-  this.camera.position.y = 0;
-  this.camera.rotation.z = -90 * Math.PI/180;
-  this.camera.rotation.y = -90 * Math.PI/180;
 };
 
 Game.prototype.bindSocketEvents = function() {
@@ -111,6 +119,18 @@ Game.prototype.bindSocketEvents = function() {
   this.socket.on('ball', function(data) {
     _this.ball.move(data);
   });
+};
+
+Game.prototype.bindPlayerEvents = function() {
+
+  var _this = this;
+
+  $('nav').on('click', 'a[data-player]', function(e) {
+    e.preventDefault();
+    var playerId = $(e.currentTarget).data('player');
+    _this.camera.setPlayer(playerId);
+  });
+
 };
 
 $(document).ready(function() {

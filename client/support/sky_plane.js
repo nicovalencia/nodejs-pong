@@ -4,7 +4,7 @@ var
 
 function SkyPlane(opts) {
 
-  _.extend(this, _.pick(opts, 'game'));
+  _.extend(this, _.pick(opts, 'game', 'side'));
 
   this.texture = new THREE.ImageUtils.loadTexture('/images/backgrounds/hyrule.jpg');
 
@@ -13,22 +13,22 @@ function SkyPlane(opts) {
   this.object = new THREE.Mesh(this.geometry, this.material);
 
   // Setup:
-  this.object.rotation.z = -90 * Math.PI/180;
-  this.object.rotation.y = -90 * Math.PI/180;
+  this.object.rotation.z = this.side * 90 * Math.PI/180;
+  this.object.rotation.y = this.side * 90 * Math.PI/180;
 
   this.resize();
 }
 
 SkyPlane.prototype.getWidth = function() {
-  return window.innerWidth * 2.6;
+  return 800;
 };
 
 SkyPlane.prototype.getHeight = function() {
-  return window.innerHeight * 2.6;
+  return 600;
 };
 
 SkyPlane.prototype.getX = function() {
-  return this.game.board.getWidth() / 2;
+  return -this.side * this.game.board.getWidth() / 2;
 };
 
 SkyPlane.prototype.getZ = function() {
@@ -36,8 +36,8 @@ SkyPlane.prototype.getZ = function() {
 };
 
 SkyPlane.prototype.resize = function() {
-  this.object.scale.x = this.getWidth();
-  this.object.scale.y = this.getHeight();
+  this.object.scale.x = this.getHeight();
+  this.object.scale.y = this.getWidth();
   this.object.position.x = this.getX();
   this.object.position.z = this.getZ();
 };
