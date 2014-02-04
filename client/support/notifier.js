@@ -21,7 +21,7 @@ Notifier.prototype.show = function(msg) {
     $cachedEl.addClass('animated bounceOutLeft');
     $cachedEl.remove();
     $cachedEl = false;
-  }, 3000);
+  }, 1500);
 };
 
 module.exports = Notifier;

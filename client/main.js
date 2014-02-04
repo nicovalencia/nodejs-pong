@@ -121,7 +121,7 @@ Game.prototype.bindSocketEvents = function() {
   });
 
   this.socket.on('playerMiss', function(data) {
-    console.log(data.playerId, 'MISSED!');
+    renderCountdown();
     renderHearts('player1', data.lives.player1);
     renderHearts('player2', data.lives.player2);
   });
@@ -129,6 +129,10 @@ Game.prototype.bindSocketEvents = function() {
   this.socket.on('over', function(data) {
     var winner = (data.lives.player1 === 0) ? 'Player 2' : 'Player 1';
     var msg = winner + ' Wins!';
+
+    // Reload lives:
+    renderHearts('player1', 3);
+    renderHearts('player2', 3);
 
     _this.notifier.show(msg);
   });
@@ -168,6 +172,16 @@ function renderHearts(player, lives) {
     $hearts.append('<span></span>');
   }
   $('aside#'+player).html($hearts);
+}
+
+function renderCountdown() {
+  window.game.notifier.show('3');
+  setTimeout(function() {
+    window.game.notifier.show('2');
+    setTimeout(function() {
+      window.game.notifier.show('1');
+    }, 1000);
+  }, 1000);
 }
 
 module.exports = window.game;
