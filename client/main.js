@@ -180,6 +180,9 @@ function renderCountdown() {
     window.game.notifier.show('2');
     setTimeout(function() {
       window.game.notifier.show('1');
+      setTimeout(function() {
+        window.game.notifier.show('GO!');
+      }, 1000);
     }, 1000);
   }, 1000);
 }

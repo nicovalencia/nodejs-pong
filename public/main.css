@@ -79,10 +79,15 @@ aside div span {
 
 p.notification {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 4em;
+  top: 20px;
+  right: 20px;
+  font-size: 5em;
   font-family: 'Myriad Pro';
-  color: #fff;
+  color: #ddd;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  margin: 0;
+  padding: 20px;
+  text-shadow: 1px 1px 1px #000;
 }
 
