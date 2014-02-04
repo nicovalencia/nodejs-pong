@@ -6,13 +6,13 @@ const
   server = require('http').createServer(app),
   zmq = require('zmq'),
   io = require('socket.io').listen(server, {log: false}),
+  Controller = require('./lib/controller'),
   Game = require('./lib/game');
 
-// === config
+// Configure Express app:
 app.use(express.static(__dirname + '/public'));
 
-// === Initialize Game:
-// todo: build game queue to begin new game for each set of 2 players.
+// Initialize game instance:
 const game = new Game();
 
 game.on('playerMiss', function(playerId) {
@@ -42,36 +42,19 @@ function clientEmit(msg, data) {
   }
 }
 
-// === WIIMOTE SUBSCRIBER
-function buildSubscriber(address) {
-  let subscriber = zmq.socket('sub');
-
-  subscriber.subscribe('');
-
-  subscriber.on('message', function(data) {
-    let speed = 5
-    let msg = JSON.parse(data.toString());
-    let player = msg.nunchuck == 1 ? game.paddles.player1 : game.paddles.player2
-
-    if (msg.nunchuck == 1) {
-      player.y -= msg.x * speed
-    }
-    else {
-      player.y += msg.x * speed
-    }
-
-    if (player.y > 80) player.y = 80;
-    if (player.y < -80) player.y = -80;
-  });
-
-  subscriber.connect(address);
-
-  return subscriber;
+// Setup controller emitters:
+if (process.env.NODE_ENV === 'production') {
+  var controller1 = new Controller('zmq', { address: 'tcp://192.168.0.2:9000' });
+  var controller2 = new Controller('zmq', { address: 'tcp://192.168.0.2:9001' });
+  controller1.emitter.on('player1Move', game.paddles.player1.move);
+  controller1.emitter.on('player2Move', game.paddles.player2.move);
+  controller2.emitter.on('player1Move', game.paddles.player1.move);
+  controller2.emitter.on('player2Move', game.paddles.player2.move);
+} else {
+  var controller = new Controller('test', { game: game });
+  controller.emitter.on('player1Move', game.paddles.player1.move);
+  controller.emitter.on('player2Move', game.paddles.player2.move);
 }
-
-// === build wiimote subscribers
-buildSubscriber('tcp://192.168.0.2:9000');
-buildSubscriber('tcp://192.168.0.2:9001');
 
 // === spray data to clients
 // todo: use setImmediate or throttle nextTick/run-loop
