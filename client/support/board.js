@@ -3,19 +3,25 @@ var
 
 function Board() {
 
-  var texture = new THREE.ImageUtils.loadTexture('/images/boards/zelda.png');
-
   this.geometry = new THREE.PlaneGeometry(1, 1);
-  this.material = new THREE.MeshBasicMaterial({
-    map: texture,
+  this.object = new THREE.Mesh(this.geometry);
+
+  // Setup
+  this.loadTexture('nyan');
+  this.object.receiveShadow = true;
+
+  this.resize();
+}
+
+Board.prototype.loadTexture = function(texture) {
+  var path = '/images/boards/' + texture + '.png';
+
+  this.object.material = new THREE.MeshBasicMaterial({
+    map: new THREE.ImageUtils.loadTexture(path),
     transparent: true,
     opacity: 0.9
   });
-  this.object = new THREE.Mesh(this.geometry, this.material);
-
-  this.object.receiveShadow = true;
-  this.resize();
-}
+};
 
 Board.prototype.getWidth = function() {
   return window.innerWidth * (2/3) * 0.95;

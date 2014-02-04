@@ -9,7 +9,7 @@ function Paddle(opts) {
   this.material = new THREE.MeshLambertMaterial({
     color: 0xffffff,
     transparent: true,
-    opacity: 0.5
+    opacity: 0.8
   });
   this.geometry = new THREE.CubeGeometry(1, 1, 1);
   this.object = new THREE.Mesh(this.geometry, this.material);

@@ -10,7 +10,7 @@ function SkyBox(opts) {
   this.object = new THREE.Mesh(this.geometry);
 
   // Load default texture:
-  this.loadTexture('bridge');
+  this.loadTexture('nyan');
 
   this.resize();
 }

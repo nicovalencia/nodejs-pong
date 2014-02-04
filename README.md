@@ -49,5 +49,5 @@ cool or fun.
 Credit
 ======
 
-[Eli](https://twitter.com/EliFatsi) and I built this stuff. We found the SkyBox CubeMaps from [this guy](http://www.humus.name/index.php?page=Textures). Everything else is pretty much hacked together JAYSCRIPT YO!
+[Eli](https://twitter.com/EliFatsi) and I built this stuff. We found the SkyBox CubeMaps from [this guy](http://www.humus.name/index.php?page=Textures). The board images were found on Google Images, if we ever make this something bigger, I'll switch them out for some OS content. Everything else is pretty much hacked together JAYSCRIPT YO!
 

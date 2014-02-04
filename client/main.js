@@ -132,6 +132,11 @@ Game.prototype.bindPlayerEvents = function() {
     _this.skyBox.loadTexture(texture);
   });
 
+  $('nav #board').on('change', 'select', function(e) {
+    var texture = $(e.currentTarget).val();
+    _this.board.loadTexture(texture);
+  });
+
 };
 
 $(document).ready(function() {
