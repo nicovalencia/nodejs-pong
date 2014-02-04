@@ -58,7 +58,7 @@ function Game() {
   this.resize();
 
   // Bind socket events:
-  this.socket = io.connect('http://localhost');
+  this.socket = io.connect(window.location.protocol + '//' + window.location.host);
   this.bindSocketEvents();
 
   // Bind player events:
