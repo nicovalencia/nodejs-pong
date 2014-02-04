@@ -46,3 +46,8 @@ Todo
 There are a few todo's in the code, as well as anything else that might be
 cool or fun.
 
+Credit
+======
+
+[Eli](https://twitter.com/EliFatsi) and I built this stuff. We found the SkyBox CubeMaps from [this guy](http://www.humus.name/index.php?page=Textures). Everything else is pretty much hacked together JAYSCRIPT YO!
+

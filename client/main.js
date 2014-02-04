@@ -12,7 +12,7 @@ var
   Ball = require('support/ball'),
   Paddle = require('support/paddle'),
   Light = require('support/light'),
-  SkyPlane = require('support/sky_plane'),
+  SkyBox = require('support/sky_box'),
   FairyParticleSystem = require('support/fairy_particle_system');
 
 function Game() {
@@ -40,11 +40,8 @@ function Game() {
   this.opponentLight = new Light({ id: 2, game: this });
   this.scene.add(this.opponentLight.object);
 
-  this.opponentSkyPlane = new SkyPlane({ game: this, side: 1 });
-  this.scene.add(this.opponentSkyPlane.object);
-
-  this.playerSkyPlane = new SkyPlane({ game: this, side: -1 });
-  this.scene.add(this.playerSkyPlane.object);
+  this.skyBox = new SkyBox({ game: this });
+  this.scene.add(this.skyBox.object);
 
   this.fairyParticleSystem = new FairyParticleSystem({ game: this });
   this.scene.add(this.fairyParticleSystem.object);
@@ -96,8 +93,7 @@ Game.prototype.resize = function() {
   this.opponent.resize();
   this.playerLight.resize();
   this.opponentLight.resize();
-  this.opponentSkyPlane.resize();
-  this.playerSkyPlane.resize();
+  this.skyBox.resize();
   this.fairyParticleSystem.resize();
   this.camera.resize();
 
@@ -129,6 +125,11 @@ Game.prototype.bindPlayerEvents = function() {
     e.preventDefault();
     var playerId = $(e.currentTarget).data('player');
     _this.camera.setPlayer(playerId);
+  });
+
+  $('nav #skybox').on('change', 'select', function(e) {
+    var texture = $(e.currentTarget).val();
+    _this.skyBox.loadTexture(texture);
   });
 
 };
