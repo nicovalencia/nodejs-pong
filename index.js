@@ -49,8 +49,19 @@ function buildSubscriber(address) {
   subscriber.subscribe('');
 
   subscriber.on('message', function(data) {
+    let speed = 5
     let msg = JSON.parse(data.toString());
-    console.log('> DATA FOR [paddle '+msg.nunchuck+']', msg);
+    let player = msg.nunchuck == 1 ? game.paddles.player1 : game.paddles.player2
+
+    if (msg.nunchuck == 1) {
+      player.y -= msg.x * speed
+    }
+    else {
+      player.y += msg.x * speed
+    }
+
+    if (player.y > 80) player.y = 80;
+    if (player.y < -80) player.y = -80;
   });
 
   subscriber.connect(address);
@@ -59,29 +70,8 @@ function buildSubscriber(address) {
 }
 
 // === build wiimote subscribers
-//buildSubscriber('tcp://192.168.109.137:9000');
-//buildSubscriber('tcp://192.168.109.137:9001');
-
-// demo /test
-let direction = -1,
-    speed = 1;
-
-setInterval(function() {
-  for (let player in game.paddles) {
-    if (direction > 0 && game.paddles[player].y < 80) {
-      game.paddles[player].y += direction * speed;
-    } else if (direction < 0 && game.paddles[player].y > -80) {
-      game.paddles[player].y += direction * speed;
-    }
-
-    if (game.paddles[player].y > 80) game.paddles[player].y = 80;
-    if (game.paddles[player].y < -80) game.paddles[player].y = -80;
-  }
-}, 1);
-
-setInterval(function() {
-  direction = Math.random() * 2 - 1;
-}, 500);
+buildSubscriber('tcp://192.168.0.2:9000');
+buildSubscriber('tcp://192.168.0.2:9001');
 
 // === spray data to clients
 // todo: use setImmediate or throttle nextTick/run-loop
