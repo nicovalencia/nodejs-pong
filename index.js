@@ -44,8 +44,8 @@ function clientEmit(msg, data) {
 
 // Setup controller emitters:
 if (process.env.NODE_ENV === 'production') {
-  var controller1 = new Controller('zmq', { address: 'tcp://192.168.0.2:9000' });
-  var controller2 = new Controller('zmq', { address: 'tcp://192.168.0.2:9001' });
+  var controller1 = new Controller('zmq', { address: 'tcp://192.168.109.135:9000' });
+  var controller2 = new Controller('zmq', { address: 'tcp://192.168.109.135:9001' });
   controller1.emitter.on('player1Move', game.paddles.player1.move);
   controller1.emitter.on('player2Move', game.paddles.player2.move);
   controller2.emitter.on('player1Move', game.paddles.player1.move);
