@@ -1,0 +1,50 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  position: absolute;
+  font-family: 'Myriad Pro';
+  color: #ddd;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px 8px;
+  margin: 0;
+}
+
+h1 {
+  color: #fff;
+  margin: 10px 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  float: left;
+  clear: both;
+  margin: 0;
+  padding: 0 0 10px;
+  list-style: none;
+}
+
+a.btn {
+  float: left;
+  background-color: #ddd;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  padding: 10px 10px 8px 10px;
+  margin: 0 10px 5px 0;
+  color: #1d68b0;
+  text-decoration: none;
+}
+
+select {
+  margin-left: 10px;
+}
+

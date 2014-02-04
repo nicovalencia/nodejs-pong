@@ -1,30 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-  <title>Wiimote</title>
-
-  <style>
-
-    html, body {
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      position: absolute;
-      font-family: 'Myriad Pro';
-      color: #666;
-      background-color: rgba(0, 0, 0, 0.2);
-      border-radius: 5px;
-      top: 20px;
-      left: 20px;
-      padding: 10px 20px 8px;
-      margin: 0;
-    }
-
-  </style>
-
+  <title>Node.js Pong Demo</title>
+  <link href="main.css" media="all" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -32,12 +10,14 @@
 
   <header>
 
-    <h1>Wiimote Demo</h1>
+    <h1>Node.js Pong Demo</h1>
 
     <nav>
       <ul>
-        <li><a href="#" data-player="1">Player 1</a></li>
-        <li><a href="#" data-player="2">Player 2</a></li>
+        <li>
+          <a href="#" data-player="1" class="btn">Player 1</a>
+          <a href="#" data-player="2" class="btn">Player 2</a>
+        </li>
         <li>
           <form id="skybox">
             <label>SkyBox:</label>

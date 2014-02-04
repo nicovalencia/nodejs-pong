@@ -127,12 +127,12 @@ Game.prototype.bindPlayerEvents = function() {
     _this.camera.setPlayer(playerId);
   });
 
-  $('nav #skybox').on('change', 'select', function(e) {
+  $('nav form#skybox').on('change', 'select', function(e) {
     var texture = $(e.currentTarget).val();
     _this.skyBox.loadTexture(texture);
   });
 
-  $('nav #board').on('change', 'select', function(e) {
+  $('nav form#board').on('change', 'select', function(e) {
     var texture = $(e.currentTarget).val();
     _this.board.loadTexture(texture);
   });
