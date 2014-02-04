@@ -60,9 +60,11 @@ if (process.env.NODE_ENV === 'production') {
 // todo: use setImmediate or throttle nextTick/run-loop
 // todo: combine into single message thread
 setInterval(function() {
-  clientEmit('player', game.paddles.player1);
-  clientEmit('opponent', game.paddles.player2);
-  clientEmit('ball', game.ball.getPosition());
+  clientEmit('update', {
+    player1: game.paddles.player1,
+    player2: game.paddles.player2,
+    ball: game.ball.getPosition()
+  });
 }, 3);
 
 // === start server

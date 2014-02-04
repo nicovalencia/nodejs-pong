@@ -108,16 +108,10 @@ Game.prototype.resize = function() {
 Game.prototype.bindSocketEvents = function() {
   var _this = this;
 
-  this.socket.on('player', function(data) {
-    _this.player.move(data);
-  });
-
-  this.socket.on('opponent', function(data) {
-    _this.opponent.move(data);
-  });
-
-  this.socket.on('ball', function(data) {
-    _this.ball.move(data);
+  this.socket.on('update', function(data) {
+    _this.player.move(data.player1);
+    _this.opponent.move(data.player2);
+    _this.ball.move(data.ball);
   });
 
   this.socket.on('playerMiss', function(data) {
