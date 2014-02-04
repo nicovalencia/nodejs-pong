@@ -118,6 +118,8 @@ Game.prototype.bindSocketEvents = function() {
     renderCountdown();
     renderHearts('player1', data.lives.player1);
     renderHearts('player2', data.lives.player2);
+
+    bounceHeart(data.playerId);
   });
 
   this.socket.on('over', function(data) {
@@ -159,6 +161,16 @@ $(document).ready(function() {
 });
 
 // Private helpers:
+
+function bounceHeart(playerId) {
+  var $hearts = $('aside#player'+playerId);
+  $hearts.addClass('animated bounce');
+
+  // Trigger animation on next tick:
+  setTimeout(function() {
+    $hearts.removeClass('animated bounce');
+  }, 2000);
+}
 
 function renderHearts(player, lives) {
   var $hearts = $('<div/>');
