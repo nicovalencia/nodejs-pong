@@ -17,6 +17,12 @@ const game = new Game();
 
 game.on('playerMiss', function(playerId) {
   console.log('Player ['+playerId+'] missed the ball!');
+  clientEmit('playerMiss', { playerId: playerId, lives: game.lives })
+});
+
+game.on('over', function(lives) {
+  console.log('Game over! Score [player1: '+lives.player1+' lives] || [player2: '+lives.player2+' lives].');
+  clientEmit('over', { lives: lives })
 });
 
 // Add new sockets to client pool:
@@ -27,6 +33,14 @@ io.sockets.on('connection', function(socket) {
     delete clients[socket.id];
   });
 });
+
+// Setup emitter hook:
+function clientEmit(msg, data) {
+  for (let clientId in clients) {
+    let socket = clients[clientId];
+    socket.emit(msg, data);
+  }
+}
 
 // === WIIMOTE SUBSCRIBER
 function buildSubscriber(address) {
@@ -73,12 +87,9 @@ setInterval(function() {
 // todo: use setImmediate or throttle nextTick/run-loop
 // todo: combine into single message thread
 setInterval(function() {
-  for (let clientId in clients) {
-    let socket = clients[clientId];
-    socket.emit('player', game.paddles.player1);
-    socket.emit('opponent', game.paddles.player2);
-    socket.emit('ball', game.ball.getPosition());
-  }
+  clientEmit('player', game.paddles.player1);
+  clientEmit('opponent', game.paddles.player2);
+  clientEmit('ball', game.ball.getPosition());
 }, 1);
 
 // === start server

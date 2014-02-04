@@ -115,6 +115,14 @@ Game.prototype.bindSocketEvents = function() {
   this.socket.on('ball', function(data) {
     _this.ball.move(data);
   });
+
+  this.socket.on('playerMiss', function(data) {
+    console.log(data);
+  });
+
+  this.socket.on('over', function(data) {
+    console.log(data);
+  });
 };
 
 Game.prototype.bindPlayerEvents = function() {
