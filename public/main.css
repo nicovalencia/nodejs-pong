@@ -48,3 +48,32 @@ select {
   margin-left: 10px;
 }
 
+aside {
+  position: absolute;
+  bottom: 10px;
+}
+
+aside#player1 {
+  left: 10px;
+}
+
+aside#player2 {
+  right: 10px;
+}
+
+aside div {
+  display: block;
+  background:url('/images/heart-container.png') repeat;
+  width: 300px;
+  height: 100px;
+}
+
+aside div span {
+  float: left;
+  clear: none;
+  display: block;
+  background:url('/images/heart.png') repeat;
+  width: 100px;
+  height: 100px;
+}
+

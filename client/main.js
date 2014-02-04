@@ -117,7 +117,9 @@ Game.prototype.bindSocketEvents = function() {
   });
 
   this.socket.on('playerMiss', function(data) {
-    console.log(data);
+    console.log(data.playerId, 'MISSED!');
+    renderHearts('player1', data.lives.player1);
+    renderHearts('player2', data.lives.player2);
   });
 
   this.socket.on('over', function(data) {
@@ -150,6 +152,16 @@ Game.prototype.bindPlayerEvents = function() {
 $(document).ready(function() {
   window.game = new Game();
 });
+
+// Private helpers:
+
+function renderHearts(player, lives) {
+  var $hearts = $('<div/>');
+  for (var i=0; i<lives; i++) {
+    $hearts.append('<span></span>');
+  }
+  $('aside#'+player).html($hearts);
+}
 
 module.exports = window.game;
 
