@@ -59,15 +59,19 @@ if (process.env.NODE_ENV === 'production') {
 // === spray data to clients
 // todo: use setImmediate or throttle nextTick/run-loop
 // todo: combine into single message thread
-setInterval(function() {
+function spray() {
   clientEmit('update', {
     player1: game.paddles.player1,
     player2: game.paddles.player2,
     ball: game.ball.getPosition()
   });
-}, 3);
+  setTimeout(spray, 3);
+}
 
 // === start server
 server.listen(3000);
 console.log('Server started ---> listening on [localhost:3000]');
+
+// Start spraying data to clients:
+spray();
 
