@@ -63,7 +63,7 @@ setInterval(function() {
   clientEmit('player', game.paddles.player1);
   clientEmit('opponent', game.paddles.player2);
   clientEmit('ball', game.ball.getPosition());
-}, 1);
+}, 3);
 
 // === start server
 server.listen(3000);

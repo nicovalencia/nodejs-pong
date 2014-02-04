@@ -7,6 +7,7 @@ var
   util = require('lib/util');
 
 var
+  Notifier = require('support/notifier'),
   Camera = require('support/camera'),
   Board = require('support/board'),
   Ball = require('support/ball'),
@@ -45,6 +46,9 @@ function Game() {
 
   this.fairyParticleSystem = new FairyParticleSystem({ game: this });
   this.scene.add(this.fairyParticleSystem.object);
+
+  // Setup notifications:
+  this.notifier = new Notifier();
 
   // Setup camera:
   this.camera = new Camera({ game: this });
@@ -123,7 +127,10 @@ Game.prototype.bindSocketEvents = function() {
   });
 
   this.socket.on('over', function(data) {
-    console.log(data);
+    var winner = (data.lives.player1 === 0) ? 'Player 2' : 'Player 1';
+    var msg = winner + ' Wins!';
+
+    _this.notifier.show(msg);
   });
 };
 
