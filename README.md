@@ -8,10 +8,9 @@ and Arduino, and wanted a visual game to connect their output to.
 All Pong logic is calculated server-side and published to clients via
 WebSockets. Event emitters on the server manage data publishing/subscribing.
 
-Eventually, we will hook this up to an external project that is used to
-gather controller input and publish over a local network ZMQ server.
+You can use the subscriber module to wire up any sort of controller you want.
 
-The game is Zelda themed, because Zelda is the best. And Link too.
+![Demo](https://raw.github.com/nicovalencia/nodejs-pong/master/public/images/demo.png)
 
 Setup
 =====
