@@ -87,7 +87,7 @@ p.notification {
   background-color: rgba(0, 0, 0, 0.8);
   border-radius: 5px;
   margin: 0;
-  padding: 20px;
+  padding: 10px 20px 0;
   text-shadow: 1px 1px 1px #000;
 }
 

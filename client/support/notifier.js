@@ -1,3 +1,5 @@
+var ANIMATION_CLASS = 'animated slideOutUp';
+
 function Notifier() {
   this.$notification = false;
 }
@@ -5,7 +7,7 @@ function Notifier() {
 Notifier.prototype.show = function(msg) {
   // Animate old notifications out:
   if (this.$notification) {
-    this.$notification.addClass('animated bounceOutLeft');
+    this.$notification.addClass(ANIMATION_CLASS);
   }
 
   this.$notification = $('<p/>', {
@@ -18,7 +20,7 @@ Notifier.prototype.show = function(msg) {
   // Remove notification later:
   var $cachedEl = $(this.$notification);
   setTimeout(function() {
-    $cachedEl.addClass('animated bounceOutLeft');
+    $cachedEl.addClass(ANIMATION_CLASS);
     $cachedEl.remove();
     $cachedEl = false;
   }, 1500);

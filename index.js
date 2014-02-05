@@ -25,6 +25,10 @@ game.on('over', function(lives) {
   clientEmit('over', { lives: lives })
 });
 
+game.ball.on('reset', function(timeout) {
+  clientEmit('ballReset', { timeout: timeout });
+});
+
 // Add new sockets to client pool:
 const clients = {};
 io.sockets.on('connection', function(socket) {

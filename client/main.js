@@ -114,8 +114,11 @@ Game.prototype.bindSocketEvents = function() {
     _this.ball.move(data.ball);
   });
 
+  this.socket.on('ballReset', function(data) {
+    renderCountdown(data.timeout);
+  });
+
   this.socket.on('playerMiss', function(data) {
-    renderCountdown();
     renderHearts('player1', data.lives.player1);
     renderHearts('player2', data.lives.player2);
 
@@ -123,14 +126,25 @@ Game.prototype.bindSocketEvents = function() {
   });
 
   this.socket.on('over', function(data) {
-    var winner = (data.lives.player1 === 0) ? 'Player 2' : 'Player 1';
-    var msg = winner + ' Wins!';
+    var winner = (data.lives.player1 === 0) ? 'player2' : 'player1';
+    var $winnerHearts = $('aside#'+winner);
+    
+    // Animate winner's hearts:
+    // todo: make this code go away...
+    $winnerHearts.addClass('animated shake');
+    setTimeout(function() { $winnerHearts.removeClass('animated shake'); }, 1000);
+    setTimeout(function() { $winnerHearts.addClass('animated bounce'); }, 1100);
+    setTimeout(function() { $winnerHearts.removeClass('animated bounce'); }, 2100);
+    setTimeout(function() { $winnerHearts.addClass('animated swing'); }, 3200);
+    setTimeout(function() { $winnerHearts.removeClass('animated swing'); }, 4200);
+    setTimeout(function() { $winnerHearts.addClass('animated pulse'); }, 5300);
+    setTimeout(function() { $winnerHearts.removeClass('animated pulse'); }, 6300);
 
     // Reload lives:
-    renderHearts('player1', 3);
-    renderHearts('player2', 3);
-
-    _this.notifier.show(msg);
+    setTimeout(function() {
+      renderHearts('player1', 3);
+      renderHearts('player2', 3);
+    }, 7000);
   });
 };
 
@@ -180,17 +194,24 @@ function renderHearts(player, lives) {
   $('aside#'+player).html($hearts);
 }
 
-function renderCountdown() {
-  window.game.notifier.show('3');
+function renderCountdown(timeout) {
+
+  var seconds = ~~(timeout / 1000);
+
+  window.game.notifier.show(seconds);
+
+  for (var i=seconds-1; i>0; i--) {
+    setTimeout((function(i) {
+      return function() {
+        window.game.notifier.show(i);
+      }
+    })(i), (seconds - i) * 1000);
+  }
+
   setTimeout(function() {
-    window.game.notifier.show('2');
-    setTimeout(function() {
-      window.game.notifier.show('1');
-      setTimeout(function() {
-        window.game.notifier.show('GO!');
-      }, 1000);
-    }, 1000);
-  }, 1000);
+    window.game.notifier.show('GO!');
+  }, seconds * 1000);
+
 }
 
 module.exports = window.game;
